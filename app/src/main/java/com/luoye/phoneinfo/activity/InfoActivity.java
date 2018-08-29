@@ -143,7 +143,7 @@ public class InfoActivity extends AppCompatActivity {
     private void loadList(){
         infoItemList.clear();
 
-        infoItemList.add(new InfoItem("屏幕信息", InfoUtils.getScreenSizeInfo(getWindowManager())));
+        infoItemList.add(new InfoItem("屏幕信息", InfoUtils.getScreenInfo(this,getWindowManager())));
 
         infoItemList.add(new InfoItem("设备标识", InfoUtils.getDeviceInfo(this,telephonyManager)));
         infoItemList.add(new InfoItem("Build", InfoUtils.getBuildInfo()));

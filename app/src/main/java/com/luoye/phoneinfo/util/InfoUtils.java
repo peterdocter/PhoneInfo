@@ -3,6 +3,8 @@ package com.luoye.phoneinfo.util;
 import android.app.ActivityManager;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.hardware.Sensor;
@@ -37,6 +39,8 @@ import android.telephony.gsm.GsmCellLocation;
 import android.text.format.Formatter;
 import android.util.DisplayMetrics;
 import android.util.Size;
+import android.view.Display;
+import android.view.Surface;
 import android.view.WindowManager;
 
 import com.luoye.phoneinfo.cpu.CpuBridge;
@@ -647,13 +651,42 @@ public class InfoUtils {
      * @param windowManager
      * @return
      */
-    public static   String getScreenSizeInfo(WindowManager windowManager){
+    public static   String getScreenInfo(Context context,WindowManager windowManager){
         int[] screenSize1=getScreenSize(windowManager);
         int[] screenSize2=getScreenSize2(windowManager);
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("分辨率方式1："+screenSize1[0]+","+screenSize1[1]+"\n");
-        stringBuilder.append("分辨率方式2："+screenSize2[0]+","+screenSize2[1]);
+        stringBuilder.append("分辨率方式2："+screenSize2[0]+","+screenSize2[1]+"\n");
+        Configuration configuration=context.getResources().getConfiguration();
+        stringBuilder.append("屏幕方向1："+ (configuration.orientation==Configuration.ORIENTATION_LANDSCAPE?"横屏":"竖屏")+"\n");
+        stringBuilder.append("屏幕方向1："+getScreenRotation(context)+"\n");
         return stringBuilder.toString();
+    }
+
+    /**
+     * 屏幕旋转
+     * @param context
+     * @return
+     */
+    private static int getScreenRotation(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        try {
+            Method m = display.getClass().getDeclaredMethod("getRotation");
+            int rotation= (Integer) m.invoke(display);
+            switch (rotation){
+                case Surface.ROTATION_90:
+                    return 90;
+                case Surface.ROTATION_180:
+                    return 180;
+                case Surface.ROTATION_270:
+                    return 270;
+            }
+            
+        } catch (Exception e) {
+            return Surface.ROTATION_0;
+        }
+        return 0;
     }
 
     /**
