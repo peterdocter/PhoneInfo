@@ -658,13 +658,13 @@ public class InfoUtils {
         stringBuilder.append("分辨率方式1："+screenSize1[0]+","+screenSize1[1]+"\n");
         stringBuilder.append("分辨率方式2："+screenSize2[0]+","+screenSize2[1]+"\n");
         Configuration configuration=context.getResources().getConfiguration();
-        stringBuilder.append("屏幕方向1："+ (configuration.orientation==Configuration.ORIENTATION_LANDSCAPE?"横屏":"竖屏")+"\n");
-        stringBuilder.append("屏幕方向1："+getScreenRotation(context)+"\n");
+        stringBuilder.append("屏幕方向："+ (configuration.orientation==Configuration.ORIENTATION_LANDSCAPE?"横屏":"竖屏")+"\n");
+        stringBuilder.append("屏幕旋转度数："+getScreenRotation(context)+"\n");
         return stringBuilder.toString();
     }
 
     /**
-     * 屏幕旋转
+     * 屏幕旋转度数
      * @param context
      * @return
      */
@@ -682,7 +682,7 @@ public class InfoUtils {
                 case Surface.ROTATION_270:
                     return 270;
             }
-            
+
         } catch (Exception e) {
             return Surface.ROTATION_0;
         }
